@@ -1,0 +1,68 @@
+# Blender MTL File: 'render.blend'
+# Material Count: 6
+
+newmtl head
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse_Smile_SOLID.png
+
+newmtl larm
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse Avatar\\Buildaverse Shirt Template.png
+
+newmtl lleg
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse Avatar\\Buildaverse Pants Template.png
+
+newmtl rarm
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse Avatar\\Buildaverse Shirt Template.png
+
+newmtl rleg
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse Avatar\\Buildaverse Pants Template.png
+
+newmtl torso
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\s018s\\Documents\\threedee\\Buildaverse\\Buildaverse Avatar\\Buildaverse Shirt Template.png

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Render</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        #canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <script src="three.js"></script>
+        <script type="module" src="GLTFLoader.js"></script>
+        <script type="module">
+            import {GLTFLoader} from "./GLTFLoader.js";
+
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
+            var renderer = new THREE.WebGLRenderer( {antialias: true});
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var loader = new GLTFLoader();
+
+            var obj1;
+            loader.load("./avatar-poses/blocky/render.gltf", function(gltf){
+                obj1 = gltf.scene;
+                obj1.position.set(-5,0,0);
+                scene.add(gltf.scene);
+            })
+            var obj2;
+            loader.load("./avatar-poses/humanoid/render.gltf", function(gltf){
+                obj2 = gltf.scene;
+                obj2.position.set(5,0,0);
+                scene.add(gltf.scene);
+            })
+            scene.background = new THREE.Color(0xb19cd8)
+            var light = new THREE.HemisphereLight(0x923492, 0x000000, 2);
+            light.castShadow = true;
+            scene.add(light);
+            camera.position.set(0,5,20);
+            function animate(){
+                requestAnimationFrame(animate);
+                obj1.rotation.y += 0.01;
+                obj2.rotation.y += 0.01;
+                renderer.render(scene,camera);
+            }
+            animate();
+        </script>
+    </div>
+</body>
+</html>

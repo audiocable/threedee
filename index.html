@@ -177,51 +177,7 @@
 </head>
 
 <body>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script>
-		var btnUpload = $("#upload_file"),
-			btnOuter = $(".button_outer");
-		btnUpload.on("change", function (e) {
-			var ext = btnUpload.val().split('.').pop().toLowerCase();
-			if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-				$(".error_msg").text("Not an Image...");
-			} else {
-				$(".error_msg").text("");
-				btnOuter.addClass("file_uploading");
-				setTimeout(function () {
-					btnOuter.addClass("file_uploaded");
-				}, 3000);
-				var uploadedFile = URL.createObjectURL(e.target.files[0]);
-				setTimeout(function () {
-					$("#uploaded_view").append('<img src="' + uploadedFile + '" />').addClass("show");
-				}, 3500);
-			}
-		});
-		$(".file_remove").on("click", function (e) {
-			$("#uploaded_view").removeClass("show");
-			$("#uploaded_view").find("img").remove();
-			btnOuter.removeClass("file_uploading");
-			btnOuter.removeClass("file_uploaded");
-		});
-	</script>
-	<main class="main_full">
-		<div class="container">
-			<div class="panel">
-				<div class="button_outer">
-					<div class="btn_upload">
-						<input type="file" id="upload_file" name="">
-						Upload Image
-					</div>
-					<div class="processing_bar"></div>
-					<div class="success_box"></div>
-				</div>
-			</div>
-			<div class="error_msg"></div>
-			<div class="uploaded_file_view" id="uploaded_view">
-				<span class="file_remove">X</span>
-			</div>
-		</div>
-	</main>
+
 	<div class="background">
 		<script src="three.js"></script>
 		<script type="module" src="GLTFLoader.js"></script>
@@ -230,9 +186,34 @@
 
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000);
-			var renderer = new THREE.WebGLRenderer({ antialias: true });
+			var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true});
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
+
+			//space background
+			var textureLoader = new THREE.TextureLoader();
+			var tilesBaseColor = textureLoader.load("stars.png");
+			const plane = new THREE.Mesh(new THREE.PlaneGeometry(96,54),
+				new THREE.MeshBasicMaterial({ map: tilesBaseColor }));
+			plane.position.set(0,0,-8);
+			scene.add(plane);
+
+			var logoimg = textureLoader.load("bv_dark_long.png");
+			const logo = new THREE.Mesh(new THREE.PlaneGeometry(10,1.25),
+				new THREE.MeshBasicMaterial({ map: logoimg, transparent: true }));
+			logo.position.set(0,15,-2);
+			scene.add(logo);
+			
+			//spotlight
+			const spotLight = new THREE.SpotLight( 0xffffff );
+			spotLight.position.set( 1000, 1000, 100 );
+			spotLight.castShadow = true;
+			spotLight.shadow.mapSize.width = 1024;
+			spotLight.shadow.mapSize.height = 1024;
+			spotLight.shadow.camera.near = 500;
+			spotLight.shadow.camera.far = 4000;
+			spotLight.shadow.camera.fov = 30;
+			scene.add( spotLight );
 
 			var loader = new GLTFLoader();
 
@@ -248,16 +229,70 @@
 				obj2.position.set(5, 0, 0);
 				scene.add(gltf.scene);
 			})
-			scene.background = new THREE.Color(0xb19cd8)
-			var light = new THREE.HemisphereLight(0x923492, 0x000000, 2);
+			var light = new THREE.HemisphereLight(0x000000, 0x000000, 2);
 			light.castShadow = true;
 			scene.add(light);
 			camera.position.set(0, 5, 20);
+
+			//Handle screen dynamics - Sid is cool
+			window.addEventListener('resize', onWindowResize, false);
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+			}
+
+			var fwd1 = true;
+			var fwd2 = false;
+			var up = true;
+
 			function animate() {
 				requestAnimationFrame(animate);
+				//obj1 animation
 				obj1.rotation.y += 0.01;
+				if(obj1.position.z > 3)
+					fwd1 = false;
+				else if(obj1.position.z < -3)
+					fwd1 = true;
+				if(fwd1)
+					obj1.position.z += 0.01;
+				else
+					obj1.position.z -= 0.01;
+
+				if(up)
+					obj1.position.y += 0.01;
+				else
+					obj1.position.y -= 0.01;
+				
+				if(obj1.position.y > 0.5)
+					up = false;
+				else if(obj1.position.y < -0.5)
+					up = true;
+				
+				//obj2 animation
 				obj2.rotation.y += 0.01;
+				if(obj2.position.z > 3)
+					fwd2 = false;
+				else if(obj2.position.z < -3)
+					fwd2 = true;
+				if(fwd2)
+					obj2.position.z += 0.01;
+				else
+					obj2.position.z -= 0.01;
+
+				if(up)
+					obj2.position.y -= 0.01;
+				else
+					obj2.position.y += 0.01;
+				
+				if(obj2.position.y > 0.5)
+					up = false;
+				else if(obj2.position.y < -0.5)
+					up = true;
+
 				renderer.render(scene, camera);
+
+				
 			}
 			animate();
 
